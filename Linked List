@@ -1,0 +1,196 @@
+#include<stdio.h>
+#include <stdlib.h>
+struct node {
+    int n;
+    struct node *next;
+};
+struct node *curr,*temp;
+struct node *create(struct node*);
+void display(struct node*);
+void insend(struct node*);
+struct node *insbeg(struct node*);
+void inspos(struct node*);
+struct node *delend(struct node*);
+void delpos(struct node*);
+struct node *delbeg(struct node*);
+void count(struct node*);
+
+void main(void){
+    int ch;
+    struct node *s;
+    s=NULL;
+    do{
+        printf("\n1.create\n");
+        printf("\n2.display\n");
+        printf("\n3.insend\n");
+        printf("\n4.insbeg\n");
+        printf("\n5.inspos\n");
+        printf("\n6.delend\n");
+        printf("\n7.delpos\n");
+        printf("\n8.delbeg\n");
+        printf("\n9.count\n");
+        printf("\nenter your choice\n");
+        scanf("%d",&ch);
+        switch(ch){
+            case 1:s=create(s);
+                break;
+            case 2:display(s);
+                break;
+            case 3:insend(s);
+                break;
+            case 4:s=insbeg(s);
+                break;
+            case 5:inspos(s);
+                break;
+            case 6:s=delend(s);
+                break;
+            case 7:delpos(s);
+                break;
+            case 8:s=delbeg(s);
+                break;
+            case 9:count(s);
+                break;
+            
+        }
+    }while(ch!=10);
+}
+struct node *create(struct node *x)
+{
+    if(x==NULL){
+        x=(struct node*)malloc(sizeof(struct node));
+        printf("enter the number" );
+        scanf("%d",&x->n);
+        x->next=NULL;
+        return x;
+    }
+    else{
+        printf("Node already created \n");
+        return x;
+    }
+}
+void display(struct node *x){
+    curr=x;
+    while(curr!=NULL){
+        printf("%d->",curr->n);
+        curr=curr->next;
+    }
+}
+void insend(struct node *x)
+{
+    curr=x;
+    while(curr->next!=NULL)
+    {
+        curr=curr->next;
+    }
+    temp=(struct node*) malloc(sizeof(struct node));
+    printf("Enter the number");
+    scanf("%d",&temp->n);
+    temp->next=NULL;
+    curr->next=temp;
+}
+struct node *insbeg(struct node *x)
+{
+    temp=(struct node*)malloc(sizeof(struct node));
+    printf("Enter the number");
+    scanf("%d",&temp->n);
+    temp->next=x;
+    return temp;
+}
+void inspos(struct node *x){
+    int pos,c=1;
+    curr=x;
+    printf("Enter the pos to be inserted");
+    scanf("%d",&pos);
+    while(curr->next!=NULL){
+        if(c==pos){
+            temp=(struct node*)malloc(sizeof(struct node *));
+            printf("Enter the number");
+            scanf("%d",&temp->n);
+            temp->next=curr->next;
+            curr->next=temp;
+            break;
+        }
+        c++;
+        curr=curr->next;
+    }
+}
+struct node *delend(struct node *x)
+{
+    struct node *prev;
+    curr=x;
+    if(curr==NULL){
+        printf("no node to be deleted");
+        return x;
+    }
+    else if(curr->next==NULL){
+        printf("You are deleting one and only one node");
+        free(curr);
+        curr=NULL;
+        x=NULL;
+        return x;
+    }
+    else{
+        while(curr->next!=NULL){
+            prev=curr;
+            curr=curr->next;
+        }
+        
+    prev->next=NULL;
+    free(curr);
+    return x;
+    }
+}
+void delpos(struct node *x)
+{
+    int pos,c=1;
+    curr=x;
+    printf("Enter the pos to be deleted");
+    scanf("%d",&pos);
+    while(curr->next!=NULL){
+        c++;
+        if(c==pos)
+        {
+            temp=curr->next;
+            curr->next=temp->next;
+            free(temp);
+            break;
+        }
+        curr=curr->next;
+    }
+}
+struct node *delbeg(struct node *x)
+{
+    curr=x;
+    if(curr==NULL)
+    {
+        printf("No node to to be deleted\n");
+        return x;
+    }
+    else if(curr->next==NULL)
+    {
+        printf("You are deleting one and only node\n");
+        free(curr);
+        x=NULL;
+        return x;
+    }
+    else{
+        x=x->next;
+        free(curr);
+        return x;
+    }
+}
+void count(struct node *x)
+{
+    int c=0;
+    curr=x;
+    while(curr!=NULL)
+    {
+        curr=curr->next;
+        c++;
+    }
+    printf("The number of nodes are %d\n",c);
+}
+
+
+
+
